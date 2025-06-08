@@ -18,11 +18,13 @@ namespace MachineSchedules.Optimizer
 
     namespace MachineSchedules
     {
+        // Model representing a single operation with multiple machine duration options
         public class OperationModel
         {
             public int OperationNumber { get; set; }
             public Dictionary<int, double> MachineDurations { get; set; } // Machine ID to Duration in minutes
         }
+     
         public class ConstrainProgramming
         {
           
@@ -35,7 +37,7 @@ namespace MachineSchedules.Optimizer
                 context = dbContext;
                 startTime = scheduleStartTime;
             }
-
+            // Main function to solve the scheduling problem
             public async Task SolveTasks()
             {
                 List<JobModel> allJobs = await GetExampleJobs();
@@ -45,18 +47,20 @@ namespace MachineSchedules.Optimizer
                     Console.WriteLine("No jobs to schedule.");
                     return;
                 }
-
+                // Estimate total scheduling horizon
                 double horizon = allJobs.Sum(job => job.Operationlist.Sum(task => task.MachineDurations.Values.Max()));
                 CpModel model = new CpModel();
 
                 Dictionary<Tuple<int, int, int>, Tuple<IntVar, IntVar, IntervalVar, BoolVar>> allTasks = new();
                 Dictionary<int, List<IntervalVar>> machineToIntervals = GetMachinesToIntervals(allJobs, allTasks, horizon, model);
-
+              
+                // Enforce task order within each job
                 foreach (var machine in machineToIntervals.Keys)
                 {
                     model.AddNoOverlap(machineToIntervals[machine]);
                 }
-
+                
+                // Each task must be assigned to exactly one machine
                 foreach (var job in allJobs)
                 {
                     for (int i = 0; i < job.Operationlist.Count - 1; i++)
@@ -90,7 +94,7 @@ namespace MachineSchedules.Optimizer
                         model.Add(LinearExpr.Sum(machineSelectionVars) == 1);
                     }
                 }
-
+                // Define makespan and set it as the objective to minimize
                 IntVar makespan = model.NewIntVar(0, (long)horizon, "makespan");
                 List<IntVar> taskEndTimes = new();
                 foreach (var job in allJobs)
@@ -106,7 +110,7 @@ namespace MachineSchedules.Optimizer
                 }
                 model.AddMaxEquality(makespan, taskEndTimes);
                 model.Minimize(makespan);
-
+                // Solve the model
                 CpSolver solver = new CpSolver();
                 CpSolverStatus status = solver.Solve(model);
 
@@ -119,18 +123,15 @@ namespace MachineSchedules.Optimizer
                 {
                     Console.WriteLine("No feasible solution found.");
                 }
-
+                // Print solver statistics
                 Console.WriteLine("Statistics");
                 Console.WriteLine($"  Conflicts: {solver.NumConflicts()}");
                 Console.WriteLine($"  Branches : {solver.NumBranches()}");
                 Console.WriteLine($"  Wall Time: {solver.WallTime()}s");
             }
-
-            private Dictionary<int, List<IntervalVar>> GetMachinesToIntervals(
-                List<JobModel> allJobs,
-                Dictionary<Tuple<int, int, int>, Tuple<IntVar, IntVar, IntervalVar, BoolVar>> allTasks,
-                double horizon,
-                CpModel model)
+            // Build intervals for each task-machine combination
+            private Dictionary<int, List<IntervalVar>> GetMachinesToIntervals( List<JobModel> allJobs, Dictionary<Tuple<int, int, int>, Tuple<IntVar, IntVar, IntervalVar, BoolVar>> allTasks,
+                double horizon,  CpModel model)
             {
                 Dictionary<int, List<IntervalVar>> machineToIntervals = new();
 
@@ -161,11 +162,8 @@ namespace MachineSchedules.Optimizer
 
                 return machineToIntervals;
             }
-
-            private async Task SaveCPScheduleToDB(
-                List<JobModel> allJobs,
-                Dictionary<Tuple<int, int, int>, Tuple<IntVar, IntVar, IntervalVar, BoolVar>> allTasks,
-                CpSolver solver)
+            // Save scheduled results to the database
+            private async Task SaveCPScheduleToDB(List<JobModel> allJobs, Dictionary<Tuple<int, int, int>, Tuple<IntVar, IntVar, IntervalVar, BoolVar>> allTasks,    CpSolver solver)
             {
                 try
                 {
@@ -231,12 +229,12 @@ namespace MachineSchedules.Optimizer
                     Console.WriteLine("Error saving CP schedule: " + ex.Message);
                 }
             }
-
+            // Retrieve job and task information from the database
             private async Task<List<JobModel>> GetExampleJobs()
             {
                 return await new DBOps().getAllProductionOrder();
             }
-
+            // Helper function to format minutes into HH:MM
             static string MinutesToTime(int minutes)
             {
                 int hours = minutes / 60;

@@ -32,7 +32,7 @@ namespace MachineSchedules
                 //2.Genetic Algorithm
                 //new GAExecuter().ExecuteGA();
                 //3.Reinforcement Learning
-                new RLExecuter().RLExecute();
+                //new RLExecuter().RLExecute();
                 //4.Constraint Programming
                 //new CPExecuter().Executer().GetAwaiter().GetResult();
             }
