@@ -1,0 +1,103 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+input[type=checkbox] {
+  display: flex;
+  align-items: center; /* Vertically centers items */
+  gap: 8px; /* Space between checkboxes if needed */
+  border-radius: 1.75em;
+  border-color: rgb(109, 127, 204);
+}
+input[type=text] {
+
+  border-color: rgb(109, 127, 204);
+}
+/* b{
+  font-weight: 600 !important;
+  font-size: 14px;
+} */
+input[type=textarea] {
+
+  border-color: rgb(109, 127, 204);
+}
+.form-control{
+
+  border-color: rgb(109, 127, 204);
+}
+.thema-button{
+  background-color: rgb(109, 127, 204);
+
+  --bs-btn-color: #fff;
+  --bs-btn-bg: rgb(109, 127, 204);
+  --bs-btn-border-color: rgb(109, 127, 204);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgb(109, 127, 204);
+  --bs-btn-hover-border-color: rgb(109, 127, 204);
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgb(109, 127, 204);
+  --bs-btn-active-border-color: rgb(109, 127, 204);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: rgb(109, 127, 204);
+  --bs-btn-disabled-border-color:rgb(109, 127, 204);
+}
+/* Modal penceresinin z-index'ini azaltabilirsiniz */
+.modal {
+  z-index: 1050;  /* Normalde 1050'dir, bunu azaltabilirsiniz */
+}
+
+/* Chatbox'ın z-index'ini artırabilirsiniz */
+.chatbot-container {
+  z-index: 1100;  /* Chatbox'ın modalın önünde olmasını sağlamak için */
+}
+.modal-overlay {
+  pointer-events: none !important; ; /* Allows clicks to pass through */
+}
+.modal-dialog{
+
+  pointer-events: none !important; /* Allows clicks to pass through */
+}
+
+.modal-content {
+  pointer-events: auto !important; ; /* Only modal content is clickable */
+}
+.modal-backdrop {
+  pointer-events: auto !important; ;
+}

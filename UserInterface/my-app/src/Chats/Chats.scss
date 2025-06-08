@@ -1,0 +1,84 @@
+$standard-padding: 0.5em;
+$bubble-border-radius: 17px;
+
+@mixin bot {
+  background: #393e46;
+  color: #f7f7f7;
+  align-self: flex-start;
+}
+
+@mixin user {
+  background: #e5dfdf;
+  color: #393e46;
+  align-self: flex-end;
+}
+
+.message-container {
+  overflow-y: scroll;
+  margin-bottom: 2em;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message {
+    max-width: 400px;
+    padding: $standard-padding;
+    border-radius: $bubble-border-radius;
+    overflow-wrap: break-word;
+  }
+
+  .user {
+    @include user;
+  }
+
+  .bot {
+    @include bot;
+  }
+
+  .options {
+    background: white;
+    display: flex;
+    align-items: center;
+
+    > div:first-child {
+      font-size: 1.3em;
+      margin: 0.7em 0.7em 0.9em 0.3em;
+      transform: rotate(90deg);
+
+      i {
+        color: #393e46;
+        animation: arrow-move 1.2s infinite;
+
+        @keyframes arrow-move {
+          0% {
+            transform: translateY(4px);
+          }
+          50% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(4px);
+          }
+        }
+      }
+    }
+
+    p {
+      padding: $standard-padding;
+      margin-right: 0.8em;
+      @include bot;
+      border-radius: $bubble-border-radius;
+
+      &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .dummy-div {
+    padding: 0.5em 0;
+  }
+}

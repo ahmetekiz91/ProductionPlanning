@@ -1,0 +1,37 @@
+export interface Items {
+  Id: number;
+  CDate?: string;
+  CompanyItemCode?: string;
+  Name_?: string;
+  EAN?: string;
+  UnitPerBox?: number;
+  StoreID?: number;
+  Weight?: number;
+  WidthLengthHeight?: string;
+  IGID?: number;
+  UnitID?: number;
+  CUsrId?: number;
+  FPath?: string;
+  UnitCost?: number;
+  Width?: number;
+  Length?: number;
+  Height?: number;
+  ItemOfferGroup?: number;
+  Isparent?: boolean;
+  IsTemplate?: boolean;
+  PCSAmount?: number;
+  ISOk?: number;
+  NameENG?: string;
+  NamePARENT?: string;
+  NamePARENTENG?: string;
+  FPathParent?: string;
+  BrandID?: number;
+  GTIP?: string;
+  Variant?: string;
+  CurrencyID?: number;
+  SalesPrice?: number;
+  CoefficientofUnitPrice?: number;
+  IsActive?: boolean;
+  UUsrId?: number;
+  UDate?: string;
+}
