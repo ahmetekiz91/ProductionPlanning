@@ -1,0 +1,4 @@
+
+//running dotnet api without visual studio
+cd path\to\your\project
+dotnet build
