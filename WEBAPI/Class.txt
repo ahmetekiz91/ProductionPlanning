@@ -1,15 +1,1 @@
-﻿truncate table Orders;
-truncate table Fiches;
-truncate table ProductionOrder;
-truncate table Production;
-truncate table ProductionConsumption;
-truncate table Shipment;
-truncate table ShipmentDocs;
-truncate table ShipmentExportRegisters;
-truncate table ShipmentPallet;
-truncate table Offers;
-truncate table OfferRevision;
-truncate table OfferRevisionItems 
-
---the shipment insert operation will be regulated as a shipment amount must grater than or equal to produced amount for source=1
---for source=2 the reserved amount will be checked, in addition the shipment amount<=reserved amount. the anti-reserved transaction will be inserted in this operation
+﻿
